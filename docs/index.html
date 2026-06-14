@@ -3,9 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chiesa di San Francesco Grande, Padova - Visita guidata</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght=0,300;0,400;0,600;1,300;1,400&family=Libre+Baskerville:ital,wght=0,400;0,700;1,400&family=DM+Sans:wght=300;400;500;600&display=swap');
 
     /* ── RESET & PAGE ── */
     * {
@@ -14,18 +15,19 @@
       box-sizing: border-box;
     }
 
-    @page {
-      size: A4 portrait;
-      margin: 0;
-    }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: white;
       color: #1c1410;
     }
 
-    /* ── PAGINA ── */
+    /* Reset universale per i link di navigazione */
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ── PAGINA (Versione Mobile / Schermo) ── */
     .pagina {
       width: 100%;
       min-height: 100vh;
@@ -33,12 +35,12 @@
       flex-direction: column;
       position: relative;
       background: #faf7f2;
-      padding: 25px 16px;
+      padding: 25px 0;
+      /* Padding verticale della pagina, i lati sono gestiti dai singoli blocchi */
       overflow: hidden;
-      /* Evita micro-scroll laterali causati dai bordi */
     }
 
-    /* Bordo interno decorativo */
+    /* Bordo interno decorativo mobile */
     .pagina::before {
       content: '';
       position: absolute;
@@ -51,57 +53,6 @@
       z-index: 20;
     }
 
-    .citazione {
-      background: #1e3a5a;
-      margin: 0 -16px;
-      /* Annulla il padding della pagina per andare da bordo a bordo dello schermo su mobile*/
-      padding: 20px 16px;
-    }
-
-    /* ── REGOLE PER LA STAMPA ── */
-    @media print {
-      @page {
-        size: A4 portrait;
-        margin: 0;
-      }
-
-      body {
-        background: white;
-      }
-
-      .pagina {
-        width: 210mm;
-        height: 297mm;
-        page-break-after: always;
-        display: grid;
-        grid-template-rows: auto auto 1fr auto auto;
-        padding: 0;
-        /* Azzera il padding mobile per far funzionare la griglia A4 */
-      }
-
-      .pagina::before {
-        top: 5mm;
-        bottom: 5mm;
-        left: 5mm;
-        right: 5mm;
-      }
-
-      .citazione {
-        margin: 0 -12mm;
-        /* Ripristina il comportamento originale in stampa */
-        padding: 5mm 12mm 4mm;
-      }
-
-      .pagina:last-child {
-        page-break-after: avoid;
-      }
-
-      * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-    }
-
     /* ── COPERTINA ── */
     .copertina {
       display: flex;
@@ -110,7 +61,7 @@
       align-items: center;
       text-align: center;
       background: #1e3a5a;
-      padding: 18mm 20mm;
+      padding: 30px 20px;
     }
 
     .copertina::before {
@@ -128,10 +79,11 @@
 
     .cov-titolo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 60pt;
+      font-size: clamp(32pt, 10vw, 60pt);
+      /* Scalabile su mobile */
       font-weight: 300;
       color: #faf7f2;
-      line-height: 1.0;
+      line-height: 1.1;
       margin-bottom: 8mm;
     }
 
@@ -164,10 +116,60 @@
       color: #d4a84b;
     }
 
+    /* ── NUOVA PAGINA: INDICE ── */
+    .indice-corpo {
+      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .indice-titolo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24pt;
+      font-weight: 400;
+      color: #1e3a5a;
+      margin-bottom: 5px;
+      border-bottom: 0.5pt solid #d4a84b;
+      padding-bottom: 5px;
+    }
+
+    .indice-lista {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .indice-item a {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      font-size: 10.5pt;
+    }
+
+    .indice-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: bold;
+      color: #b8922a;
+      min-width: 35px;
+    }
+
+    .indice-testo {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 10pt;
+      color: #3a2e26;
+      flex-grow: 1;
+    }
+
+    .indice-item a:hover .indice-testo {
+      color: #8b3a2a;
+    }
+
     /* ── TESTATA ── */
     .testata {
       background: #1e3a5a;
-      padding: 3mm 12mm;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -179,6 +181,11 @@
       text-transform: uppercase;
       color: #e8d5a3;
       opacity: .6;
+      transition: opacity 0.2s;
+    }
+
+    .percorso-nome:hover {
+      opacity: 1;
     }
 
     .numero-pannello {
@@ -191,7 +198,7 @@
     /* ── INTESTAZIONE ── */
     .intestazione {
       background: #f5efe6;
-      padding: 5mm 12mm 3mm;
+      padding: 12px 16px 10px;
       border-bottom: 0.4pt solid #e8d5a3;
     }
 
@@ -218,9 +225,9 @@
 
     .titolo-cappella {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 26pt;
+      font-size: 20pt;
       font-weight: 300;
-      line-height: 1.1;
+      line-height: 1.2;
       margin-bottom: 1.5mm;
       color: #1c1410;
     }
@@ -236,7 +243,7 @@
 
     /* ── CORPO ── */
     .corpo {
-      padding: 0 12mm;
+      padding: 0;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -250,8 +257,9 @@
       letter-spacing: 2.5pt;
       text-transform: uppercase;
       color: #b8922a;
-      margin-top: 3.5mm;
-      margin-bottom: 2mm;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
       gap: 2.5mm;
@@ -264,22 +272,17 @@
       background: #e8d5a3;
     }
 
-    .corpo>.lbl:first-child {
-      margin-top: 2mm;
-    }
-
-    /* citazione biblica — protagonista della pagina */
+    /* citazione biblica */
     .citazione {
       background: #1e3a5a;
-      margin: 0 -12mm;
-      padding: 5mm 12mm 4mm;
+      padding: 15px 16px;
     }
 
     .cit-testo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 14pt;
+      font-size: 13pt;
       font-style: italic;
-      line-height: 1.65;
+      line-height: 1.5;
       color: #e8e0d4;
       margin-bottom: 2mm;
     }
@@ -294,13 +297,14 @@
     /* testo corrente */
     .testo {
       font-family: 'Libre Baskerville', serif;
-      font-size: 11.5pt;
-      line-height: 1.72;
+      font-size: 10.5pt;
+      line-height: 1.65;
       color: #3a2e26;
+      padding: 0 16px;
     }
 
     .testo p {
-      margin-bottom: 2.5mm;
+      margin-bottom: 10px;
     }
 
     .testo p:last-child {
@@ -312,7 +316,7 @@
       display: flex;
       align-items: center;
       gap: 3mm;
-      margin: 3mm 0;
+      margin: 15px 0;
       flex-shrink: 0;
     }
 
@@ -333,31 +337,36 @@
     /* ── RILANCIO ── */
     .rilancio {
       background: #f5efe6;
-      padding: 4mm 12mm 3.5mm;
+      padding: 12px 16px;
       border-top: 0.4pt solid #e8d5a3;
       margin-top: auto;
     }
 
+    .rilancio .lbl {
+      padding: 0;
+      margin-top: 0;
+    }
+
     .domanda {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 13.5pt;
+      font-size: 12.5pt;
       font-style: italic;
       color: #1e3a5a;
-      line-height: 1.45;
-      margin-bottom: 1.5mm;
+      line-height: 1.4;
+      margin-bottom: 8px;
     }
 
     .nota {
       font-size: 7.5pt;
       color: #3a2e26;
-      line-height: 1.55;
+      line-height: 1.45;
       font-weight: 300;
     }
 
     /* ── PIEDE ── */
     .piede {
       background: #1e3a5a;
-      padding: 2.5mm 12mm;
+      padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -367,7 +376,12 @@
       font-size: 6pt;
       letter-spacing: 1.5pt;
       text-transform: uppercase;
-      color: rgba(232, 213, 163, 0.4);
+      color: rgba(232, 213, 163, 0.5);
+      transition: color 0.2s;
+    }
+
+    .piede-sx:hover {
+      color: rgba(232, 213, 163, 1);
     }
 
     .piede-dx {
@@ -376,13 +390,151 @@
       color: #d4a84b;
       letter-spacing: 0.5pt;
     }
+
+    .piede-dx:hover {
+      color: #faf7f2;
+    }
+
+
+    /* ── ═════════════════════════════════ ── */
+    /* ── REGOLE SPECIFICHE PER LA STAMPA  ── */
+    /* ── ═════════════════════════════════ ── */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      .pagina {
+        width: 210mm;
+        height: 297mm;
+        page-break-after: always;
+        display: grid;
+        grid-template-rows: auto auto 1fr auto auto;
+        overflow: hidden;
+        padding: 0;
+      }
+
+      .pagina:last-child {
+        page-break-after: avoid;
+      }
+
+      .pagina::before {
+        top: 5mm;
+        bottom: 5mm;
+        left: 5mm;
+        right: 5mm;
+      }
+
+      /* Ripristino dei vecchi spazi generosi tipografici per la carta A4 */
+      .copertina {
+        padding: 18mm 20mm;
+      }
+
+      .testata {
+        padding: 3mm 12mm;
+      }
+
+      .intestazione {
+        padding: 5mm 12mm 3mm;
+      }
+
+      .corpo {
+        padding: 0 12mm;
+      }
+
+      .lbl {
+        padding: 0;
+        margin-top: 3.5mm;
+        margin-bottom: 2mm;
+      }
+
+      .lbl:first-child {
+        margin-top: 2mm;
+      }
+
+      .citazione {
+        margin: 0 -12mm;
+        padding: 5mm 12mm 4mm;
+      }
+
+      .cit-testo {
+        font-size: 14pt;
+        line-height: 1.65;
+      }
+
+      .testo {
+        padding: 0;
+        font-size: 11.5pt;
+        line-height: 1.72;
+      }
+
+      .testo p {
+        margin-bottom: 2.5mm;
+      }
+
+      .div {
+        margin: 3mm 0;
+      }
+
+      .rilancio {
+        padding: 4mm 12mm 3.5mm;
+      }
+
+      .domanda {
+        font-size: 13.5pt;
+        line-height: 1.45;
+        margin-bottom: 1.5mm;
+      }
+
+      .nota {
+        line-height: 1.55;
+      }
+
+      .piede {
+        padding: 2.5mm 12mm;
+      }
+
+      .titolo-cappella {
+        font-size: 26pt;
+        line-height: 1.1;
+      }
+
+      .indice-corpo {
+        padding: 15mm 15mm;
+        gap: 20px;
+      }
+
+      .indice-titolo {
+        font-size: 32pt;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+      }
+
+      .indice-item a {
+        font-size: 13pt;
+      }
+
+      /* Disattiva l'interattività dei link in stampa (rimangono neri/testo ordinario) */
+      a {
+        pointer-events: none;
+        color: inherit;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
   </style>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
 
-  <!-- ══════ COPERTINA ══════ -->
   <div class="pagina copertina">
     <p class="cov-sovra">Percorso di visita individuale</p>
     <h1 class="cov-titolo">Chiesa di <br /><em>San Francesco Grande</em><br /> Padova</h1>
@@ -392,10 +544,52 @@
   </div>
 
 
-  <!-- ══════ I ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="indice">
     <div class="testata">
       <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <span class="numero-pannello">Indice del Percorso</span>
+    </div>
+    <div class="indice-corpo">
+      <h2 class="indice-titolo">Le 13 Soste</h2>
+      <ul class="indice-lista">
+        <li class="indice-item"><a href="#pannello-1"><span class="indice-num">I.</span> <span class="indice-testo">Il
+              Battesimo</span></a></li>
+        <li class="indice-item"><a href="#pannello-2"><span class="indice-num">II.</span> <span class="indice-testo">Il
+              Beato Bernardino da Feltre</span></a></li>
+        <li class="indice-item"><a href="#pannello-3"><span class="indice-num">III.</span> <span
+              class="indice-testo">San Lorenzo Martire</span></a></li>
+        <li class="indice-item"><a href="#pannello-4"><span class="indice-num">IV.</span> <span class="indice-testo">Il
+              Crocifisso e Sant'Antonio morente</span></a></li>
+        <li class="indice-item"><a href="#pannello-5"><span class="indice-num">V.</span> <span class="indice-testo">La
+              Madonna della Salute</span></a></li>
+        <li class="indice-item"><a href="#pannello-6"><span class="indice-num">VI.</span> <span class="indice-testo">Il
+              Battesimo di Santa Giustina</span></a></li>
+        <li class="indice-item"><a href="#pannello-7"><span class="indice-num">VII.</span> <span class="indice-testo">Le
+              Storie della Vergine</span></a></li>
+        <li class="indice-item"><a href="#pannello-8"><span class="indice-num">VIII.</span> <span
+              class="indice-testo">San Francesco Stigmatizzato</span></a></li>
+        <li class="indice-item"><a href="#pannello-9"><span class="indice-num">IX.</span> <span class="indice-testo">Il
+              Santissimo Sacramento</span></a></li>
+        <li class="indice-item"><a href="#pannello-10"><span class="indice-num">X.</span> <span class="indice-testo">Il
+              cuore della chiesa (Altare maggiore)</span></a></li>
+        <li class="indice-item"><a href="#pannello-11"><span class="indice-num">XI.</span> <span
+              class="indice-testo">Madonna col Bambino e Santi</span></a></li>
+        <li class="indice-item"><a href="#pannello-12"><span class="indice-num">XII.</span> <span
+              class="indice-testo">Ecce Homo</span></a></li>
+        <li class="indice-item"><a href="#pannello-13"><span class="indice-num">XIII.</span> <span
+              class="indice-testo">L'Ascensione di Cristo</span></a></li>
+      </ul>
+    </div>
+    <div class="piede">
+      <span class="piede-sx">Menu di navigazione</span>
+      <a class="piede-dx" href="#pannello-1">Inizia il percorso →</a>
+    </div>
+  </div>
+
+
+  <div class="pagina" id="pannello-1">
+    <div class="testata">
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello I</span>
     </div>
     <div class="intestazione">
@@ -439,16 +633,15 @@
       </p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello II</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-2">Continua → Pannello II</a>
     </div>
   </div>
 
 
-  <!-- ══════ II ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-2">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello II</span>
     </div>
     <div class="intestazione">
@@ -495,16 +688,15 @@
         XV secolo che il mondo ha riscoperto nel XX.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello III</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-3">Continua → Pannello III</a>
     </div>
   </div>
 
 
-  <!-- ══════ III ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-3">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello III</span>
     </div>
     <div class="intestazione">
@@ -548,16 +740,15 @@
         nel 1810 con le soppressioni napoleoniche. San Lorenzo è ancora qui, portato in salvo.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello IV</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-4">Continua → Pannello IV</a>
     </div>
   </div>
 
 
-  <!-- ══════ IV ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-4">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello IV</span>
     </div>
     <div class="intestazione">
@@ -603,16 +794,15 @@
         pregare per qualcuno che non c'è più.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello V</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-5">Continua → Pannello V</a>
     </div>
   </div>
 
 
-  <!-- ══════ V ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-5">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello V</span>
     </div>
     <div class="intestazione">
@@ -655,16 +845,15 @@
         significa star male e sperare di guarire.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello VI</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-6">Continua → Pannello VI</a>
     </div>
   </div>
 
 
-  <!-- ══════ VI ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-6">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello VI</span>
     </div>
     <div class="intestazione">
@@ -706,16 +895,15 @@
         il suo nome. Ma il punto in cui tutto cominciò, secondo la tradizione, è qui.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello VII</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-7">Continua → Pannello VII</a>
     </div>
   </div>
 
 
-  <!-- ══════ VII ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-7">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello VII</span>
     </div>
     <div class="intestazione">
@@ -765,16 +953,15 @@
         questo è genealogia.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello VIII</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-8">Continua → Pannello VIII</a>
     </div>
   </div>
 
 
-  <!-- ══════ VIII ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-8">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello VIII</span>
     </div>
     <div class="intestazione">
@@ -820,16 +1007,15 @@
         francescana. Francesco avrebbe apprezzato.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello IX</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-9">Continua → Pannello IX</a>
     </div>
   </div>
 
 
-  <!-- ══════ IX ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-9">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello IX</span>
     </div>
     <div class="intestazione">
@@ -875,16 +1061,15 @@
         il memoriale di chi ha attraversato la morte per stare dall'altra parte.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello X</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-10">Continua → Pannello X</a>
     </div>
   </div>
 
 
-  <!-- ══════ X ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-10">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello X</span>
     </div>
     <div class="intestazione">
@@ -929,16 +1114,15 @@
         stesso scultore presente in più punti della chiesa. Un filo che attraversa i decenni.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello XI</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-11">Continua → Pannello XI</a>
     </div>
   </div>
 
 
-  <!-- ══════ XI ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-11">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello XI</span>
     </div>
     <div class="intestazione">
@@ -981,16 +1165,15 @@
         solo: vennero dall'Oriente. Il Vangelo lascia i posti liberi.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello XII</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-12">Continua → Pannello XII</a>
     </div>
   </div>
 
 
-  <!-- ══════ XII ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-12">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello XII</span>
     </div>
     <div class="intestazione">
@@ -1036,16 +1219,15 @@
       </p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Continua → Pannello XIII · Ultima sosta</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <a class="piede-dx" href="#pannello-13">Continua → Pannello XIII · Ultima sosta</a>
     </div>
   </div>
 
 
-  <!-- ══════ XIII ══════ -->
-  <div class="pagina">
+  <div class="pagina" id="pannello-13">
     <div class="testata">
-      <span class="percorso-nome">San Francesco Grande · Padova</span>
+      <a class="percorso-nome" href="#indice">San Francesco Grande · Padova</a>
       <span class="numero-pannello">Pannello XIII — Ultima sosta</span>
     </div>
     <div class="intestazione">
@@ -1090,8 +1272,8 @@
         Crocifisso, il Veronese — sono tutti qui. Puoi tornare.</p>
     </div>
     <div class="piede">
-      <span class="piede-sx">San Francesco Grande · Padova</span>
-      <span class="piede-dx">Fine del percorso · La Parola Illustrata</span>
+      <a class="piede-sx" href="#indice">San Francesco Grande · Padova</a>
+      <span class="piede-dx" style="opacity: 0.5;">Fine del percorso</span>
     </div>
   </div>
 
