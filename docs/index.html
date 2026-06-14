@@ -25,31 +25,74 @@
       color: #1c1410;
     }
 
-    /* ── PAGINA: occupa esattamente un A4, niente overflow ── */
+    /* ── PAGINA (Comportamento di base per Mobile/Schermo) ── */
     .pagina {
-      width: 210mm;
-      height: 297mm;
-      page-break-after: always;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto auto;
-      /* testata | intestazione | corpo | rilancio | piede */
-      overflow: hidden;
+      width: 100%;
+      min-height: 100vh;
+      /* Occupa lo schermo intero in verticale */
+      display: flex;
+      flex-direction: column;
+      /* Layout fluido su mobile */
       position: relative;
       background: #faf7f2;
+      padding: 15mm 8mm;
+      /* Spazio protettivo per i bordi su mobile */
     }
 
-    .pagina:last-child {
-      page-break-after: avoid;
-    }
-
-    /* bordo interno decorativo */
+    /* Bordo interno decorativo: lo rendiamo responsive */
     .pagina::before {
       content: '';
       position: absolute;
-      inset: 5mm;
+      top: 5mm;
+      bottom: 5mm;
+      left: 5mm;
+      right: 5mm;
       border: 0.4pt solid #e8d5a3;
       pointer-events: none;
       z-index: 20;
+    }
+
+    /* Rilancio a fondo pagina anche su mobile se c'è spazio */
+    .rilancio {
+      background: #f5efe6;
+      padding: 4mm 12mm 3.5mm;
+      border-top: 0.4pt solid #e8d5a3;
+      margin-top: auto;
+      /* Spinge giù il blocco */
+    }
+
+    /* ── REGOLE SPECIFICHE PER LA STAMPA (A4 Perfetto) ── */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      body {
+        background: white;
+      }
+
+      .pagina {
+        width: 210mm;
+        height: 297mm;
+        page-break-after: always;
+        display: grid;
+        grid-template-rows: auto auto 1fr auto auto;
+        /* Ripristina la griglia rigida */
+        overflow: hidden;
+        padding: 0;
+        /* Rimuove il padding mobile per usare la griglia */
+      }
+
+      .pagina:last-child {
+        page-break-after: avoid;
+      }
+
+      /* Forza la stampa dei colori di sfondo (fondamentale per i PDF) */
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
     }
 
     /* ── COPERTINA ── */
@@ -327,6 +370,7 @@
       letter-spacing: 0.5pt;
     }
   </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
