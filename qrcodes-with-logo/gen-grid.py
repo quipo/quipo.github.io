@@ -15,12 +15,15 @@ qr_data = [
     {"file": f"pannello-8.{ext}", "label": "Altare maggiore"},
     {"file": f"pannello-9.{ext}", "label": "Madonna con<br />Bambino e Santi<br />(edicola destra)"},
     {"file": f"pannello-10.{ext}", "label": "Santissimo Sacramento"},
-    {"file": f"pannello-11.{ext}", "label": "San Francesco Stigmatizzato"},
-    {"file": f"pannello-12.{ext}", "label": "Genealogia di Gesù · <br />Storie della Vergine"},
-    {"file": f"pannello-13.{ext}", "label": "Ascensione di Cristo"},
+    {"file": f"pannello-11.{ext}", "label": "Cappella Mersi e<br />monumento Roccabonella"},
+    {"file": f"pannello-12.{ext}", "label": "San Francesco Stigmatizzato"},
+    {"file": f"pannello-13.{ext}", "label": "Sacro Cuore<br />di Gesù"},
+    {"file": f"pannello-14.{ext}", "label": "Genealogia di Gesù<br />· Storie della Vergine"},
+    {"file": f"pannello-15.{ext}", "label": "San Giuseppe"},
+    {"file": f"pannello-16.{ext}", "label": "Ascensione di Cristo"},
 ]
 
-ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"]
+ROMAN_NUMERALS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI"]
 
 # Alternative: If you just want to auto-load all files from a folder 
 # and use the filename as the label, uncomment the lines below:

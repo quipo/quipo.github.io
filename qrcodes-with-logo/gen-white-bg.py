@@ -2,8 +2,8 @@ import io
 import segno
 from PIL import Image, ImageDraw
 
-numPanels = 14
-for i in range(1, numPanels, 1):  # (start, stop, step)
+numPanels = 16
+for i in range(1, numPanels + 1, 1):  # (start, stop, step)
 
     # 1. Generate the QR code with 'H' (High) error correction
     qr = segno.make(f'https://quipo.github.io/#pannello-{i}', error='h')
